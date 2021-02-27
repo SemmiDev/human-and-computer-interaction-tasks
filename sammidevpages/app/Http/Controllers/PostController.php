@@ -45,10 +45,8 @@ class PostController extends Controller
         $attr['category_id'] = request('category');
 
 
-        Post::create($attr);
+        $post = auth()->user()->posts()->create($attr);
         session()->flash('success', 'The post was created');
-        // session()->flash('error', 'The post failed created');
-
         return redirect('posts');
     }
 
@@ -62,16 +60,31 @@ class PostController extends Controller
 
     public function update(PostRequest $request,  Post $post)
     {
+        $this->authorize('update', $post);
         $attr = $request->all();
+        $attr['category_id'] = request('category');
         $post->update($attr);
 
         session()->flash('success', 'The post was updated');
         return redirect('posts');
     }
 
+    // public function destroy(Post $post)
+    // {
+    //     $this->authorize('updated', $post);
+    //     if(auth()->user()->is($post->author)) {
+    //         $post->delete();
+    //         session()->flash('success', 'The post was deleted');
+    //         return redirect('posts');
+    //     }else {
+    //         session()->flash('error', 'Itu bukan anggota keluarga kamu');
+    //         return redirect('posts');
+    //     }
+    // }
+
     public function destroy(Post $post)
     {
-        $post->delete();
+        $this->authorize('delete', $post);
         session()->flash('success', 'The post was deleted');
         return redirect('posts');
     }
