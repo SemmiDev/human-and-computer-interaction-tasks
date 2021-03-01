@@ -19,7 +19,7 @@
             <div class="card card-accent-primary bg-light border-success">
                 <div class="card-header">New Member</div>
                     <div class="card-body">
-                        <form action="/posts/store" method="post">
+                        <form action="/posts/store" method="post" autocomplete="off" enctype="multipart/form-data">
                             @csrf
                             @include('post.partials.form-control', ['submit' => 'Create'])
                         </form>

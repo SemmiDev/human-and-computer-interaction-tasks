@@ -4,6 +4,8 @@ use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 use PHPUnit\TextUI\XmlConfiguration\Group;
 
+Route::view('search', 'post.search');
+Route::get('searchEngine', 'SearchController@member')->name('search.posts');
 Route::get('posts', 'PostController@index')->name('posts.index');
 
 Route::prefix('posts')->middleware('auth')->group(function () {
@@ -15,12 +17,12 @@ Route::prefix('posts')->middleware('auth')->group(function () {
 });
 
 // kebawah biar tak menyangka ini adalah slug
-Route::get('posts/{post:slug}', 'PostController@show');
+Route::get('posts/{post:slug}', 'PostController@show')->name('posts.show');
 
-Route::get('categories/{category:slug}', 'CategoryController@show');
+Route::get('categories/{category:slug}', 'CategoryController@show')->name('categories.show');
 Route::view('contact', 'contact');
 Route::view('about', 'about');
-Route::view('login', 'login');
+// Route::view('login', 'login');
 
 Auth::routes();
 Route::get('/', 'HomeController@index')->name('home');
